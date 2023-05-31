@@ -1,12 +1,21 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getAllMenuThunk } from './redux/shop/shopThunk';
 
 import Header from './components/Header/Header';
  const ShopPage = lazy(() => import("./pages/ShopPage/ShopPage.jsx"));
  const ShoppingCartPage = lazy(() => import("./pages/ShoppingCartPage/ShoppingCartPage.jsx"));
 
 
+
 function App() {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllMenuThunk());
+  }, [dispatch]);
+
   return (
     <>
      <Header />
