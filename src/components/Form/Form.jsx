@@ -1,47 +1,44 @@
 import React, { useState } from "react";
 import { nanoid } from 'nanoid';
 import s from "./Form.module.scss";
-import { addOrderThunk } from "../../redux/shop/shopThunk";
-import { useDispatch } from 'react-redux';
 
 
-function Form() {
-  const [date, setDate]=useState({
-    name: '',
-  email: '',
-  phone: '',
-  address: '',
-  })
+function Form({onSubmit}) {
+  
 
+  const [name, setName]=useState("")
+  const [email, setEmail]=useState("")
+  const [phone, setPhone]=useState("")
+  const [address, setAddress]=useState("")
 
-  const dispatch =useDispatch();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDate((prevState) => ({
-      ...prevState,
-      [name]: value
-    }));
+    const {name, value } = e.target;
+    console.log("name, value",name, value);
+
+    // setName(value);
+    // setEmail(value);
+    // setPhone(value);
+    // setAddress(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addOrderThunk(date));
-    setDate({
-      name: '',
-      email: '',
-      password: ''
-    });
+    onSubmit({name, email,phone, address});
+    setName("");
+    setEmail("");
+    setPhone("");
+    setAddress("");
   };
   
   const nameInputId = nanoid();
-  const numberInputId = nanoid();
+  const emailInputId = nanoid();
   const phoneInputId = nanoid();
   const addressInputId = nanoid();
 
   return (
     <div className={s.sectionForm}>
-      <form className={s.formList}>
+      <form className={s.formList} onSubmit={handleSubmit}>
         <div className={s.overInput}>
         <label  htmlFor={nameInputId} className={s.label}> Name: </label>
         <input
@@ -49,20 +46,20 @@ function Form() {
           type="text"
           placeholder="Name"
           name="name"
-          value="name"
+          value={name}
           className={s.input}
           onChange={handleChange}
         />
         </div>
         
         <div className={s.overInput}>
-          <label htmlFor={numberInputId} className={s.label}> Email: </label>
+          <label htmlFor={emailInputId} className={s.label}> Email: </label>
           <input
-          id={numberInputId}
+          id={emailInputId}
             type="email"
             placeholder="Email"
             name="email"
-            value="email"
+            value={email}
             className={s.input}
             onChange={handleChange}
           />
@@ -75,7 +72,7 @@ function Form() {
             type="tel"
             placeholder="Phone"
             name="phone"
-            value="phone"
+            value={phone}
             className={s.input}
             onChange={handleChange}
           />
@@ -88,7 +85,7 @@ function Form() {
             type="url"
             placeholder="Address"
             name="address"
-            value="address"
+            value={address}
             className={s.input}
             onChange={handleChange}
           />

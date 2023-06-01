@@ -7,7 +7,7 @@ function ShopPage() {
 
   return (
     <div className={s.containerPage}>
-   <SideBar setSelectedArray={setSelectedArray}/>
+      <SideBar setSelectedArray={setSelectedArray}/>
       <MainShop selectedArray={selectedArray}/>
     </div>
   )

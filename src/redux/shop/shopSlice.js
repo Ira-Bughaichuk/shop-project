@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addOrderThunk, getAllMenuThunk, getOrderByIdThunk } from './shopThunk';
+import { getAllMenuThunk, getProductByIdThunk } from './shopThunk';
 
 const initialState = {
     allMenu: [],
     date: null,
+    productsId:[],
     orders:[],
     isLoading: false,
 }
@@ -26,19 +27,17 @@ const handlePending = state => {
             state.isLoading = false;
             state.allMenu =  payload;
           })
-          .addCase(addOrderThunk.pending, handlePending)
-          .addCase(addOrderThunk.rejected, handleRejected)
-          .addCase(addOrderThunk.fulfilled, (state, { payload }) => {
+          .addCase(getProductByIdThunk.pending, handlePending)
+          .addCase(getProductByIdThunk.rejected, handleRejected)
+          .addCase(getProductByIdThunk.fulfilled, (state, { payload }) => {
             state.isLoading = false;
-            state.date =  payload;
+            //console.log("getProductByIdThunk", payload); 
+            //зробитит масив обєктів через фільтер
+            state.productsId=  [...state.productsId,payload]
+           
+         
           })
-          .addCase(getOrderByIdThunk.pending, handlePending)
-          .addCase(getOrderByIdThunk.rejected, handleRejected)
-          .addCase(getOrderByIdThunk.fulfilled, (state, { payload }) => {
-            console.log(payload);
-            state.isLoading = false;
-            //state.orders =  payload;
-          })
+         
     },
 });
 

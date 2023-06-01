@@ -1,13 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { addOrder, getAllMenu, getOrderById } from './../../service/service';
+import { addOrder, getAllMenu, getOrderById, getProductById } from './../../service/service';
 
 export const getAllMenuThunk = createAsyncThunk(
   "menu/fetchAll",
   async (_, {rejectWithValue}) => {
     try {
         const data = await getAllMenu();
-        //console.log("getAllMenu",data);
         return data
     } catch {
       return rejectWithValue("Error fetch");
@@ -15,29 +14,41 @@ export const getAllMenuThunk = createAsyncThunk(
   }
 );
 
-export const addOrderThunk = createAsyncThunk(
-    "menu/postOrder",
-    async (cred, {rejectWithValue}) => {
-      try {
-          const data = await addOrder(cred);
-          console.log("addOrder", data);
-          return data
-      } catch {
-        return rejectWithValue();
-      }
-    }
-  );
-
-  export const getOrderByIdThunk = createAsyncThunk(
+//for bascket
+  export const getProductByIdThunk = createAsyncThunk(
     "menu/getOrderId",
-    async (id, {rejectWithValue}) => {
+    async (_id, {rejectWithValue}) => {
       try {
-          const data = await getOrderById(id);
-          console.log("getOrderById",data);
+          const data = await  getProductById(_id);
           return data
       } catch {
         return rejectWithValue();
       }
     }
   );
+  //for order
+  export const geOrderByIdThunk = createAsyncThunk(
+    "menu/getOrderId",
+    async (_id, {rejectWithValue}) => {
+      try {
+          const data = await getOrderById(_id);
+          return data
+      } catch {
+        return rejectWithValue();
+      }
+    }
+  );
+  ///after submit
+export const addOrderThunk = createAsyncThunk(
+  "menu/postOrder",
+  async (cred, {rejectWithValue}) => {
+    try {
+        const data = await addOrder(cred);
+        console.log("addOrder", data);
+        return data
+    } catch {
+      return rejectWithValue();
+    }
+  }
+);
   
