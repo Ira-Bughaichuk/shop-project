@@ -1,91 +1,82 @@
 import React, { useState } from "react";
-import { nanoid } from 'nanoid';
+
 import s from "./Form.module.scss";
 
 
 function Form({onSubmit}) {
-  
-
-  const [name, setName]=useState("")
-  const [email, setEmail]=useState("")
-  const [phone, setPhone]=useState("")
-  const [address, setAddress]=useState("")
-
+  const [date, setDate]=useState({
+    name:"",
+    email:"",
+    phone:"",
+    address:""
+  })
 
   const handleChange = (e) => {
-    const {name, value } = e.target;
-    console.log("name, value",name, value);
-
-    // setName(value);
-    // setEmail(value);
-    // setPhone(value);
-    // setAddress(value);
+    const { name, value } = e.target;
+    setDate(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
+  
   const handleSubmit = e => {
     e.preventDefault();
-    onSubmit({name, email,phone, address});
-    setName("");
-    setEmail("");
-    setPhone("");
-    setAddress("");
+    onSubmit(date);
+   
   };
-  
-  const nameInputId = nanoid();
-  const emailInputId = nanoid();
-  const phoneInputId = nanoid();
-  const addressInputId = nanoid();
+
 
   return (
     <div className={s.sectionForm}>
       <form className={s.formList} onSubmit={handleSubmit}>
         <div className={s.overInput}>
-        <label  htmlFor={nameInputId} className={s.label}> Name: </label>
+        <label  htmlFor="name" className={s.label}> Name: </label>
         <input
-        id={nameInputId}
+        id="name"
           type="text"
           placeholder="Name"
           name="name"
-          value={name}
+          value={date.name}
           className={s.input}
           onChange={handleChange}
         />
         </div>
         
         <div className={s.overInput}>
-          <label htmlFor={emailInputId} className={s.label}> Email: </label>
+          <label htmlFor="email" className={s.label}> Email: </label>
           <input
-          id={emailInputId}
-            type="email"
+          id="email"    
+           type="email"
             placeholder="Email"
             name="email"
-            value={email}
+            value={date.email}
             className={s.input}
             onChange={handleChange}
           />
         </div>
 
         <div className={s.overInput}>
-          <label htmlFor={phoneInputId} className={s.label}> Phone: </label>
+          <label htmlFor="phone" className={s.label}> Phone: </label>
           <input
-          id={phoneInputId}
+          id="phone"
             type="tel"
             placeholder="Phone"
             name="phone"
-            value={phone}
+            value={date.phone}
             className={s.input}
             onChange={handleChange}
           />
         </div>
 
         <div className={s.overInput}>
-          <label   htmlFor={addressInputId} className={s.label}> Address: </label>
+          <label   htmlFor="address" className={s.label}> Address: </label>
           <input
-           id={addressInputId}
+           id="address"
             type="url"
             placeholder="Address"
             name="address"
-            value={address}
+            value={date.address}
             className={s.input}
             onChange={handleChange}
           />

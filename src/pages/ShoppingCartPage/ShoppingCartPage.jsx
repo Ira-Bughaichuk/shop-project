@@ -9,7 +9,7 @@ const ShoppingCartPage = () => {
 const[prise, setPrise] =useState(null);
 
   const formSubmit = dateForm => {
-    console.log(dateForm);
+    console.log("dateForm",dateForm);
     // setDate(dateForm);
   }
   return (
