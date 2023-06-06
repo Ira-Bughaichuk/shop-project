@@ -1,24 +1,35 @@
-import React  from 'react'
+import React, { useState, useEffect }  from 'react'
 import s from './MainShop.module.scss';
 
 import { baseUrl } from './../../constants';
 import {  useDispatch } from 'react-redux';
-import { getProductByIdThunk } from '../../redux/shop/shopThunk';
+import { orderIdList } from '../../redux/shop/shopSlice';
+
 
 
 
 function MainShop({selectedArray}) {
-  const dispatch =useDispatch();
+  const [orderList, setOrderList] = useState([]) //arr unic id
+  const dispatch = useDispatch();
 //   const allMenu = useSelector(selectAllMenu);
 // const arrMCDonal = allMenu?.filter(item=>item.store === "MCDonald's");
  //console.log("selectedArray", selectedArray);
  
+useEffect(() => {
+  if(orderList?.length > 0){
+     dispatch(orderIdList(orderList))
+  }  
+}, [dispatch, orderList])
 
 
-
- const handleAddToOrder=(_id)=>{
-  dispatch(getProductByIdThunk(_id));
+ const handleAddToOrder=(id)=>{
+  if(!orderList?.includes(id)){
+    setOrderList(prevState => [...prevState, id])
+  }
  }
+ console.log("orderList", orderList);
+
+ 
   
   return (
     <div className={s.containerMain}>
@@ -33,17 +44,6 @@ function MainShop({selectedArray}) {
                 </div> 
               </div>) 
             ))}  
-              
-
-            
-            {/* <div className={s.item}>
-                <img src={minImg} alt="dish" className={s.image} />
-                <div className={s.description}>
-                <p className={s.title}>name</p>
-                <p className={s.price}>Price: <span>120</span></p>
-                <button className={s.btn}> add to Cart</button>
-                </div>
-            </div> */}
            
             </div>
        

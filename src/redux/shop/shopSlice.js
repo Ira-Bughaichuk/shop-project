@@ -3,9 +3,13 @@ import { getAllMenuThunk, getProductByIdThunk } from './shopThunk';
 
 const initialState = {
     allMenu: [],
-    date: null,
-    productsId:[],
-    orders:[],
+    ordersId:[],
+    products:[],
+    formDate:null,
+    basketDate:null,
+    // date: null,
+    // productsId:[],
+    // orders:[],
     isLoading: false,
 }
 
@@ -19,6 +23,17 @@ const handlePending = state => {
  const shopSlice = createSlice({
     name: "shop",
   initialState,
+  reducers:{
+    orderIdList(state, { payload }) {
+      state.ordersId = payload;
+    },
+    changeForm(state, { payload }) {
+      state.formDate = payload;
+    },
+    changeBasket(state, { payload }) {
+      state.basketDate = payload;
+    },
+  },
     extraReducers: builder =>{
         builder
         .addCase(getAllMenuThunk.pending, handlePending)
@@ -31,15 +46,14 @@ const handlePending = state => {
           .addCase(getProductByIdThunk.rejected, handleRejected)
           .addCase(getProductByIdThunk.fulfilled, (state, { payload }) => {
             state.isLoading = false;
-            //console.log("getProductByIdThunk", payload); 
-            //зробитит масив обєктів через фільтер
-            state.productsId=  [...state.productsId,payload]
+             if(!(state.products.find(item=> item._id === payload._id))){
+              state.products = [...state.products, payload]
+            }
            
-         
           })
          
     },
 });
 
-
+export const { orderIdList, changeForm, changeBasket } = shopSlice.actions;
 export const shopReducer = shopSlice.reducer;
