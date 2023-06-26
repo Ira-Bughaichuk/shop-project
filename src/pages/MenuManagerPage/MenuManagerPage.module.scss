@@ -1,0 +1,25 @@
+.containerPage {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--mainShop-bg);
+  padding: 20px 15px;
+  height: calc(100vh - 60px);
+  gap: 20px;
+  @media screen and (min-width: 480px) {
+    gap: 30px;
+    padding: 20px 30px;
+  }
+}
+.containerMain {
+ 
+  @media screen and (max-width: 479px) {
+    width: 100%;
+  }
+  @media screen and (min-width: 480px) {
+    width: calc(100vw - 170px);
+  }
+  @media screen and (min-width: 768px) {
+    width: calc(100vw - 289px);
+  }
+}
+

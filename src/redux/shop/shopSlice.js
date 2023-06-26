@@ -1,59 +1,61 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllMenuThunk, getProductByIdThunk } from './shopThunk';
+import { getAllMenuThunk, getProductByIdThunk } from "./shopThunk";
 
 const initialState = {
-    allMenu: [],
-    ordersId:[],
-    products:[],
-    formDate:null,
-    basketDate:null,
-    // date: null,
-    // productsId:[],
-    // orders:[],
-    isLoading: false,
-}
+  allMenu: [],
+  ordersId: [],
+  products: [],
+  basketDate: null,
+  selectedCategory:[],
+  isLoading: false,
+  isActive: false,
+};
 
-const handlePending = state => {
-    state.isLoading = true;
-  };
-  const handleRejected = state => {
-    state.isLoading = false;
-  };
+const handlePending = (state) => {
+  state.isLoading = true;
+};
+const handleRejected = (state) => {
+  state.isLoading = false;
+};
 
- const shopSlice = createSlice({
-    name: "shop",
+const shopSlice = createSlice({
+  name: "shop",
   initialState,
-  reducers:{
-    orderIdList(state, { payload }) {
-      state.ordersId = payload;
+  reducers: {
+    setCategory(state, {payload}){
+      state.selectedCategory = payload;
     },
-    changeForm(state, { payload }) {
-      state.formDate = payload;
+    orderIdList(state, { payload }) {
+      state.ordersId = [...state.ordersId, payload];
     },
     changeBasket(state, { payload }) {
       state.basketDate = payload;
     },
-  },
-    extraReducers: builder =>{
-        builder
-        .addCase(getAllMenuThunk.pending, handlePending)
-        .addCase(getAllMenuThunk.rejected, handleRejected)
-        .addCase(getAllMenuThunk.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
-            state.allMenu =  payload;
-          })
-          .addCase(getProductByIdThunk.pending, handlePending)
-          .addCase(getProductByIdThunk.rejected, handleRejected)
-          .addCase(getProductByIdThunk.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
-             if(!(state.products.find(item=> item._id === payload._id))){
-              state.products = [...state.products, payload]
-            }
-           
-          })
-         
+    delateProduct(state, {payload}){
+      state.products = payload
     },
+    changeIsActive(state, {payload}){
+      state.isActive = payload 
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllMenuThunk.pending, handlePending)
+      .addCase(getAllMenuThunk.rejected, handleRejected)
+      .addCase(getAllMenuThunk.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.allMenu = payload;
+      })
+      .addCase(getProductByIdThunk.pending, handlePending)
+      .addCase(getProductByIdThunk.rejected, handleRejected)
+      .addCase(getProductByIdThunk.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        if (!state.products.find((item) => item._id === payload._id)) {
+          state.products = [...state.products, payload];
+        }
+      })
+    }
 });
 
-export const { orderIdList, changeForm, changeBasket } = shopSlice.actions;
+export const { orderIdList, changeBasket, delateProduct, changeIsActive } = shopSlice.actions;
 export const shopReducer = shopSlice.reducer;
