@@ -13,7 +13,6 @@ function Header() {
 
   const toggleIsActive = () => {
     dispatch(changeIsActive(!isActive));
-    console.log("toggleIsActive", isActive);
   };
   
   return (
